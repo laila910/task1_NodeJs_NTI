@@ -69,11 +69,41 @@ deleteTask = (taskId) => {
 
 }
 
+//edit task
+editTask = (taskId, editobject) => {
 
+        deleteTask(taskId);
+        let tasks = readDataFromJsonFile();
+
+        let editTask = {
+            status: false,
+            id: taskId,
+            ...editobject
+        };
+        tasks.push(editTask);
+        writeDataToJsonFile(tasks);
+
+    }
+    //change status
+changeStatus = (taskId, changestatus) => {
+
+        let tasks = readDataFromJsonFile()
+        let result = tasks.find(t => {
+            if (taskId == t.id) {
+                t.status = changestatus;
+            };
+        })
+        writeDataToJsonFile(tasks);
+        console.log("the status is changed");
+
+    }
+    //get tasks due date > today date
 module.exports = {
     addTask,
     showAll,
     searchTask,
-    deleteTask
+    deleteTask,
+    editTask,
+    changeStatus
 
 }
