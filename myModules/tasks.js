@@ -103,10 +103,8 @@ gettasksfordate = () => {
     let tasks = readDataFromJsonFile()
     tasks.forEach(task => {
 
-
         var date2 = task.dueDate;
         date1 = new Date();
-
         date2 = new Date(date2);
 
         if (date2 > date1) {
