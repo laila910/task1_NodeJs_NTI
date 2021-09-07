@@ -88,6 +88,7 @@ editTask = (taskId, editobject) => {
 changeStatus = (taskId, changestatus) => {
 
         let tasks = readDataFromJsonFile()
+
         let result = tasks.find(t => {
             if (taskId == t.id) {
                 t.status = changestatus;
@@ -98,12 +99,28 @@ changeStatus = (taskId, changestatus) => {
 
     }
     //get tasks due date > today date
+gettasksfordate = () => {
+    let tasks = readDataFromJsonFile()
+    tasks.forEach(task => {
+
+        var date1 = '08/09/2021';
+        var date2 = task.dueDate;
+        date1 = new Date(date1);
+        date2 = new Date(date2);
+        if (date1 < date2) {
+            console.table(task);
+
+        }
+    })
+
+}
 module.exports = {
     addTask,
     showAll,
     searchTask,
     deleteTask,
     editTask,
-    changeStatus
+    changeStatus,
+    gettasksfordate
 
 }
