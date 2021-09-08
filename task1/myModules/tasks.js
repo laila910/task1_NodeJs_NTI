@@ -26,6 +26,9 @@ writeDataToJsonFile = (data) => {
     //add new task
 addTask = (data) => {
     let tasks = readDataFromJsonFile()
+        // found = filterTasks('title', data.title);
+        // if (found) { return chalk.red('the title is previosly exist') }
+
     let task = {
         status: false,
         id: parseInt((Date.now()) * Math.random()),
@@ -38,12 +41,14 @@ addTask = (data) => {
 
 //show All Tasks 
 showAll = () => {
-        tasks = readDataFromJsonFile()
-        tasks.forEach(task => {
-            console.table(task)
-        })
-    }
-    //search for task
+    tasks = readDataFromJsonFile()
+    tasks.forEach(task => {
+        console.table(task)
+    })
+}
+
+
+//search for task
 searchTask = (taskId) => {
         let tasks = readDataFromJsonFile()
         let result = tasks.find(t => {
@@ -68,6 +73,7 @@ deleteTask = (taskId) => {
     writeDataToJsonFile(tasks);
 
 }
+
 
 //edit task
 editTask = (taskId, editobject) => {
@@ -119,8 +125,10 @@ module.exports = {
     showAll,
     searchTask,
     deleteTask,
+
     editTask,
     changeStatus,
     gettasksfordate
+
 
 }

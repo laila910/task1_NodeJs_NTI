@@ -10,4 +10,4 @@ const tasks = require('./myModules/tasks')
     // tasks.addTask({ "title": "task 11", "content": "content for task 11", "dueDate": "20/7/2021", "type": "study type" });
     // tasks.gettasksfordate();
     // tasks.addTask({ "title": "task 15", "content": "content for task 15", "dueDate": "18/9/2021", "type": "study type" });
-tasks.gettasksfordate();
+    // tasks.gettasksfordate();

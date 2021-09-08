@@ -13,5 +13,13 @@
     "validator": "^13.6.0"
   },
   "devDependencies": {},
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laila910/task1_NodeJs_NTI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/laila910/task1_NodeJs_NTI/issues"
+  },
+  "homepage": "https://github.com/laila910/task1_NodeJs_NTI#readme"
 }
