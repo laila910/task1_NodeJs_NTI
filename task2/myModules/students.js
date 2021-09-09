@@ -1,3 +1,4 @@
+import students from '../students.json';
 //call modules
 const fs = require('fs')
 const chalk = require('chalk')
@@ -24,26 +25,81 @@ writeDataToJsonFile = (data) => {
 
 
 //add new task
-var counter = 0;
-addStudent = (name, className, [{ subName, grade }]) => {
-    let students = readDataFromJsonFile()
+//var count = 0;
+let avlClasses = ['a', 'b', 'c']
+addStudent = (id, name, className) => {
+        let students = readDataFromJsonFile()
 
-    if (className != 'a' || className != 'b' || className != 'c') {
-        return console.log(chalk.red('className is invalid'))
-    }
-    let student = {
-        id: ++counter,
-        name: name,
-        className: className,
-        subjects: [
-            { subName: subName, grade: grade }
+        if (!avlClasses.includes(className)) {
+            return console.log(chalk.red('className is invalid'))
+        }
 
-        ]
+        //count = count + 1;
+
+        let student = {
+            id: id,
+            name: name,
+            className: className,
+            subjects
+        }
+        students.push(student)
+        writeDataToJsonFile(students)
+        console.log(chalk.green(`data inserted successfuly `))
     }
-    students.push(student)
-    writeDataToJsonFile(students)
-    console.log(chalk.green(`data inserted successfuly `))
+    // get item index by id
+searchStudentIndex = (students, key, searchVal) => {
+        let result = students.findIndex(student => {
+            return searchVal == student[key]
+        })
+        return result
+    }
+    //addsubjectsToStudent
+addSubject = (studentId, subName, subGrade) => {
+        console.log(subject)
+        let students = readDataFromJsonFile()
+        let studentIndex = searchStudentIndex(students, 'id', studentId)
+        if (studentIndex == -1) return console.log(chalk.red('student not found'))
+        let subject = {
+            subName: subName,
+            subGrade: subGrade
+        }
+        for (n in students) {
+            students[studentIndex][n] = subject[n]
+        }
+        writeDataToJsonFile(students)
+        console.log(chalk.green('subject added'))
+    }
+    //get all students
+getAllStudents = () => {
+        students = readDataFromJsonFile()
+        students.forEach(student => {
+            console.table(student)
+        })
+    }
+    //get single student by student id
+getStudentbyId = (searchVal) => {
+        let students = readDataFromJsonFile()
+        let result = students.findIndex(student => {
+            return searchVal == student[id]
+        })
+        return result
+    }
+    //get students total degrees
+totalGrade = 0;
+getTotalDegreeforStudents = () => {
+    students = readDataFromJsonFile()
+    students.forEach(student => {
+        for (subject in student) {
+            totalGrade += student[subjects][subGrade];
+        }
+        console.table(student)
+    })
 }
+
 module.exports = {
-    addStudent
+    addStudent,
+    addSubject,
+    getAllStudents,
+    getStudentbyId,
+    getTotalDegreeforStudents
 }
