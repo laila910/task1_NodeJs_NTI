@@ -1,0 +1,27 @@
+{{>header}}
+{{>navbar}}
+
+<section class="container my-3">
+    <form method="post">
+        <div class="row">
+            <div class="mb-3 col-6">
+                <label class="label-control mb-2">Title</label>
+                <input placeholder="title" class="form-control" value="{{post.title}}" name="title">
+            </div>
+            <div class="mb-3 col-6">
+                <label class="label-control mb-2">Description</label>
+                <input placeholder="description" class="form-control" value="{{post.description}}" name="description">
+            </div>
+            <div class="mb-3 col-6">
+                <label class="label-control mb-2">category</label>
+                <input placeholder="category" class="form-control" value="{{post.category}}" name="category">
+            </div>
+
+            <div class="mb-3 col-12">
+                <button class="btn btn-primary">Edit post</button>
+            </div>
+
+        </div>
+    </form>
+</section>
+{{>footer}}
