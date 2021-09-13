@@ -1,0 +1,10 @@
+hbs (Posts app)
+    - each user (title,description,category,date)
+    - posts.json holds all posts
+    - add form (get, post)
+    - edit form
+    - show all posts
+    - show single post
+    - delete post
+
+- routes , controller 
