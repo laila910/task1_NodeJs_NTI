@@ -1,0 +1,40 @@
+{{>header}}
+{{>navbar}}
+<section class="container my-3">
+    <a href="search" class="btn btn-warning m-1">search Customer</a>
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <th>accNum</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if isEmpty}}
+            <tr>
+                <td colspan="3">No data to show</td>
+            </tr>
+            {{/if}}
+            {{#each data}}
+            <tr>
+                <td>{{this.accNum}}</td>
+                <td>{{this.name}}</td>
+                <td>
+
+                    <a href="updatecustomer/{{this.accNum}}" class="btn btn-warning m-1">update Customer</a>
+                    <a href="showcustomer/{{this.accNum}}" class="btn btn-warning m-1">show customer</a>
+                    <a href="addbalance/{{this.accNum}}" class="btn btn-warning m-1">add balance</a>
+                    <a href="withdraw/{{this.accNum}}" class="btn btn-warning m-1">withdraw</a>
+
+                    {{#unless this.status }}
+                    <a href="activate/{{this.accNum}}" class="btn btn-warning m-1">activate</a>
+                    {{/unless }}
+                    <a href="del/{{this.accNum}}" class="btn btn-danger m-1">Delete</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
+{{>footer}}
