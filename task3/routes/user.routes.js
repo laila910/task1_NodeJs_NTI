@@ -4,7 +4,7 @@ const userController = require('../controller/user.controller')
 router.get('/addpost', userController.addpost)
 router.post('/addpost', userController.savepost)
 
-router.get('/showall', userController.showall)
+router.get('', userController.showall)
 
 router.get('/showsinglepost/:id', userController.getSingle)
 
