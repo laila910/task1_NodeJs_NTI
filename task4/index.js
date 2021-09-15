@@ -24,7 +24,18 @@ MongoClient.connect(dbURL, {}, (err, client) => {
     //     console.log(res)
     // })
 
-    db.collection('students').findOne({ _id: new ObjectId("6141b39b2aed6c601cdf7186") },
-        ((err, res) => { console.log(res) })
-    )
+    // db.collection('students').findOne({ _id: new ObjectId("6141b39b2aed6c601cdf7186") },
+    //     ((err, res) => { console.log(res) })
+    // )
+
+
+    db.collection('students').updateMany({ name: "marwa" }, { $set: { name: "mahmoud" } }
+
+        )
+        .then((res) => {
+            console.log(res)
+        })
+        .catch(e => {
+            e => console.log(e)
+        })
 })
