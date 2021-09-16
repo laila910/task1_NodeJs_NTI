@@ -1,18 +1,20 @@
-const fs = require('fs')
-const { render } = require('../src/app')
-const readJsonFile = () => {
-    let allcustomers
-    try {
-        allcustomers = JSON.parse(fs.readFileSync('models/customers.json').toString())
-        if (!Array.isArray(allcustomers)) throw new Error()
-    } catch (e) {
-        allcustomers = []
-    }
-    return allcustomers
-}
-const saveJsonFile = (allcustomers) => {
-    fs.writeFileSync('models/customers.json', JSON.stringify(allcustomers))
-}
+// const fs = require('fs')
+// const { render } = require('../src/app')
+// const readJsonFile = () => {
+//     let allcustomers
+//     try {
+//         allcustomers = JSON.parse(fs.readFileSync('models/customers.json').toString())
+//         if (!Array.isArray(allcustomers)) throw new Error()
+//     } catch (e) {
+//         allcustomers = []
+//     }
+//     return allcustomers
+// }
+// const saveJsonFile = (allcustomers) => {
+//     fs.writeFileSync('models/customers.json', JSON.stringify(allcustomers))
+// }
+const ObjectId = require('mongodb').ObjectId
+const dbCon = require('../models/dbConnection')
 
 
 const addcustomer = (req, res) => {
@@ -27,34 +29,57 @@ const addcustomer = (req, res) => {
     })
 }
 const savecustomer = (req, res) => {
-    // res.send(req.body)
-    let allcustomers = readJsonFile()
+    // // res.send(req.body)
+    // let allcustomers = readJsonFile()
+    // let customer = {
+    //     status: false,
+    //     accNum: Date.now(),
+    //     ...req.body
+    // }
+    // allcustomers.push(customer)
+    // saveJsonFile(allcustomers)
+    // res.redirect('/')
     let customer = {
         status: false,
-        accNum: Date.now(),
         ...req.body
     }
-    allcustomers.push(customer)
-    saveJsonFile(allcustomers)
-    res.redirect('/')
+    dbCon((err, db) => {
+        if (err) res.send(err)
+        db.collection('customer').insertOne(customer, (error, result) => {
+            if (error) res.send(error)
+            res.redirect('/')
+        })
+    })
 }
 const showall = (req, res) => {
-    let allcustomers = readJsonFile()
-        // let customerIndex = searchcustomer(allcustomers, req.params.accNum)
-    res.render('showall', {
-        pageTitle: "all customers",
-        data: allcustomers,
-        isEmpty: allcustomers.length == 0 ? true : false,
-        // isactivate: allcustomers[customerIndex].status == false ? true : false
+        // let allcustomers = readJsonFile()
+        //     // let customerIndex = searchcustomer(allcustomers, req.params.accNum)
+        // res.render('showall', {
+        //     pageTitle: "all customers",
+        //     data: allcustomers,
+        //     isEmpty: allcustomers.length == 0 ? true : false,
+        //     // isactivate: allcustomers[customerIndex].status == false ? true : false
 
-    })
-}
-searchcustomer = (allcustomers, accNum) => {
-    let index = allcustomers.findIndex(ele => {
-        return ele.accNum == accNum
-    })
-    return index
-}
+        // })
+        dbCon((error, db) => {
+            if (error) res.send(error)
+            db.collection('customer').find().toArray((err, allcustomers) => {
+                if (err) res.send(err)
+                res.render('showall', {
+                    pageTitle: "all customers",
+                    data: allcustomers,
+                    isEmpty: allcustomers.length == 0 ? true : false
+                })
+
+            })
+        })
+    }
+    // searchcustomer = (allcustomers, accNum) => {
+    //     let index = allcustomers.findIndex(ele => {
+    //         return ele.accNum == accNum
+    //     })
+    //     return index
+    // }
 const addbalance = (req, res) => {
     let allcustomers = readJsonFile()
     let customerIndex = searchcustomer(allcustomers, req.params.accNum)
@@ -120,41 +145,78 @@ returnsearchcustomerdata = (req, res) => {
 
 }
 const getSingle = (req, res) => {
-    let allcustomers = readJsonFile()
-    let customerIndex = searchcustomer(allcustomers, req.params.accNum)
-    if (customerIndex == -1) res.render('err404', {
-        pageTitle: "customer Not Found",
-        err: `No customer With id ${req.params.accNum}`
-    })
-    else {
-        res.render('showcustomer', {
-            pageTitle: "Single customer",
-            customer: allcustomers[customerIndex]
+    // let allcustomers = readJsonFile()
+    // let customerIndex = searchcustomer(allcustomers, req.params.accNum)
+    // if (customerIndex == -1) res.render('err404', {
+    //     pageTitle: "customer Not Found",
+    //     err: `No customer With id ${req.params.accNum}`
+    // })
+    // else {
+    //     res.render('showcustomer', {
+    //         pageTitle: "Single customer",
+    //         customer: allcustomers[customerIndex]
+    //     })
+    // }
+    dbCon((err, db) => {
+        if (err) res.send(err)
+        db.collection('customer').findOne({ _id: new ObjectId(req.params.id) }, (e, data) => {
+            if (e) res.send(e)
+            if (!data) res.render('err404', {
+                pageTitle: "User Not Found",
+                err: `No user With id ${req.params.id}`
+            })
+            res.render('showcustomer', {
+                pageTitle: "Single User",
+                customer: data
+            })
+
         })
-    }
+    })
 }
 const editcustomer = (req, res) => {
-    let allcustomers = readJsonFile()
-    let customerIndex = searchcustomer(allcustomers, req.params.accNum)
-    if (customerIndex == -1) res.render('err404', {
-        pageTitle: "customer Not Found",
-        err: `No customer With id ${req.params.accNum}`
-    })
-    else {
-        res.render('updatecustomer', {
-            pageTitle: "update post",
-            customer: allcustomers[customerIndex]
+    // let allcustomers = readJsonFile()
+    // let customerIndex = searchcustomer(allcustomers, req.params.accNum)
+    // if (customerIndex == -1) res.render('err404', {
+    //     pageTitle: "customer Not Found",
+    //     err: `No customer With id ${req.params.accNum}`
+    // })
+    // else {
+    //     res.render('updatecustomer', {
+    //         pageTitle: "update post",
+    //         customer: allcustomers[customerIndex]
+    //     })
+    // }
+    dbCon((err, db) => {
+        if (err) res.send(err)
+        db.collection('customer').findOne({ _id: new ObjectId(req.params.id) }, (e, data) => {
+            if (e) res.send(e)
+            if (!data) res.render('err404', {
+                pageTitle: "User Not Found",
+                err: `No user With id ${req.params.id}`
+            })
+            res.render('updatecustomer', {
+                pageTitle: "Single User",
+                customer: data
+            })
+
         })
-    }
+    })
 }
 const updatecustomer = (req, res) => {
-    let allcustomers = readJsonFile()
-    let customerIndex = searchcustomer(allcustomers, req.params.accNum)
-    allcustomers[customerIndex].name = req.body.name
-    allcustomers[customerIndex].balance = req.body.balance
-    allcustomers[customerIndex].status = req.body.status
+    // let allcustomers = readJsonFile()
+    // let customerIndex = searchcustomer(allcustomers, req.params.accNum)
+    // allcustomers[customerIndex].name = req.body.name
+    // allcustomers[customerIndex].balance = req.body.balance
+    // allcustomers[customerIndex].status = req.body.status
 
-    saveJsonFile(allcustomers)
+    // saveJsonFile(allcustomers)
+    // res.redirect('/')
+    dbCon((error, db) => {
+        if (error) res.send(error)
+        db.collection('customer').updateOne({ _id: new ObjectId(req.params.id) }, { $set: req.body })
+            .then(() => res.redirect('/'))
+            .catch((e) => res.send(e))
+    })
     res.redirect('/')
 }
 const activatestatus = (req, res) => {
@@ -166,18 +228,24 @@ const activatestatus = (req, res) => {
 
 }
 const deletecustomer = (req, res) => {
-    let allcustomers = readJsonFile()
-    let customerIndex = searchcustomer(allcustomers, req.params.accNum)
+    // let allcustomers = readJsonFile()
+    // let customerIndex = searchcustomer(allcustomers, req.params.accNum)
 
-    if (customerIndex == -1) res.render('err404', {
-        pageTitle: "customer Not Found",
-        err: `No customer With id ${req.params.accNum}`
+    // if (customerIndex == -1) res.render('err404', {
+    //     pageTitle: "customer Not Found",
+    //     err: `No customer With id ${req.params.accNum}`
+    // })
+    // else {
+    //     allcustomers.splice(customerIndex, 1)
+    //     saveJsonFile(allcustomers)
+    //     res.redirect('/')
+    // }
+    dbCon((error, db) => {
+        if (error) res.send(error)
+        db.collection('customer').deleteOne({ _id: new ObjectId(req.params.id) })
+            .then(() => res.redirect('/'))
+            .catch(e => res.send(e))
     })
-    else {
-        allcustomers.splice(customerIndex, 1)
-        saveJsonFile(allcustomers)
-        res.redirect('/')
-    }
 }
 const err404 = (req, res) => {
     res.render('err404', {
@@ -190,17 +258,17 @@ module.exports = {
     showall,
     savecustomer,
     err404,
-    searchcustomer,
+    // searchcustomer,
     editcustomer,
     updatecustomer,
     deletecustomer,
-    getSingle,
-    activatestatus,
-    searchcustomerdata,
-    addbalance,
-    withdraw,
-    savedwithdraw,
-    savedbalance,
-    returnsearchcustomerdata
+    getSingle
+    // activatestatus,
+    // searchcustomerdata,
+    // addbalance,
+    // withdraw,
+    // savedwithdraw,
+    // savedbalance,
+    // returnsearchcustomerdata
 
 }
