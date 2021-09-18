@@ -1,12 +1,13 @@
+require('dotenv').config()
+require('../db/connection')
+const bookRoutes = require('../routes/book.routes')
 const express = require("express")
 const app = express()
 
-const userRoutes = require('../routes/user.routes')
 
-require('dotenv').config()
-require('../db/connection')
+
 
 app.use(express.json())
-app.use(userRoutes)
+app.use(bookRoutes)
 
 module.exports = app
