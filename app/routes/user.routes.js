@@ -39,6 +39,15 @@ router.post('/addAddr/:id', async(req, res) => {
         }
     })
     // - login
+
+router.post('/login', async(req, res) => {
+        try {
+            let user = await User.loginUser(req.body.email, req.body.password)
+            res.status(200).send({ apiStatus: true, data: user, message: "logged in " })
+        } catch (e) {
+            res.status(500).send({ apiStatus: false, data: e.message, message: "cann't login " })
+        }
+    })
     // - logout
     // - profile
     // - edit profile
