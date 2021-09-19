@@ -69,9 +69,9 @@ const User = mongoose.model('User', userSchema)
 
 userSchema.statics.loginUser = async(email, password) => {
     const user = await User.findOne(email)
-    if (!user) throw new error('invalid email')
+    if (!user) throw new Error('invalid email')
     const isValidPass = await bcrypt.compare(password, user.password)
-    if (!isValidPass) throw new error('invalid password')
+    if (!isValidPass) throw new Error('invalid password')
     return user
 }
 module.exports = User
