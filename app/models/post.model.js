@@ -1,64 +1,25 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
-const bcrypt = require('bcryptjs')
-
-const postSchema = new mongoose.Schema({
+const postSchema = mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    postType: {
+        type: String,
+        required: true,
+        enum: ['txt', 'img', 'vid'],
+        trim: true
+    },
     content: {
         type: String,
-        required: true,
-        trim: true
+        required: function() { return this.postType == "txt" }
     },
-    file: {
+    postFile: {
         type: String,
-        required: true,
-        trim: true
-    },
-    type: {
-        type: String,
-        required: true,
-        trim: true,
-        enum: ["image", "video", "txt"]
-    },
-    // user:[]
-    comments: [{
-        user: {
-            type: String,
-            trim: true
-        },
-        details: {
-            type: String,
-            trim: true
-        }
-    }],
-    likes: [{
-        user: {
-            type: String,
-            trim: true
-        }
-    }]
-
-
-
-    // addresses: [{
-    //     addrType: {
-    //         type: String,
-    //         trim: true
-    //     },
-    //     addrDetails: {
-    //         type: String,
-    //         trim: true
-    //     }
-    // }],
-
-}, { timestamps: true })
-
-// userSchema.pre('save', async function() {
-//     const user = this
-//     if (user.isModified('password')) {
-//         user.password = await bcrypt.hash(user.password, 12)
-//     }
-// })
+        required: function() { return this.postType != "txt" }
+    }
+}, { timeStamps: true })
 
 const Post = mongoose.model('Post', postSchema)
-
 module.exports = Post
