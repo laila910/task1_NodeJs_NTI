@@ -18,7 +18,14 @@ const postSchema = mongoose.Schema({
     postFile: {
         type: String,
         required: function() { return this.postType != "txt" }
-    }
+    },
+    comments: [
+
+        {
+            text: {},
+            userId: [{}]
+        }
+    ]
 }, { timeStamps: true })
 
 const Post = mongoose.model('Post', postSchema)

@@ -1,4 +1,5 @@
 const Post = require('../models/post.model')
+
 const addPost = async(req, res) => {
     try {
         const post = new Post({
@@ -11,7 +12,6 @@ const addPost = async(req, res) => {
         res.status(500).send({ apiStatus: false, data: e.message, message: "error adding post data" })
     }
 }
-
 const myPosts = async(req, res) => {
     try {
         await req.user.populate({
@@ -23,4 +23,60 @@ const myPosts = async(req, res) => {
     }
 }
 
-module.exports = { addPost, myPosts }
+const singlePost = async(req, res) => {
+    try {
+        const singlepost = await Post.findById(req.params.id)
+        if (!singlepost) res.send('post not found')
+        await req.user.populate(
+            "myPosts"
+        )
+        res.status(200).send({ apiStatus: true, data: req.user.myPosts, message: "data added" })
+    } catch (e) {
+        res.status(500).send({ apiStatus: false, data: e.message, message: "error adding post data" })
+    }
+
+    // const post = await req.user.populate("myPosts").findById(req.params.id)
+    // await req.user.populate("myPosts")
+
+
+}
+const addComment = async(req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        post.comments.push(req.user._id)
+        await post.save()
+        res.status(200).send({
+            apiStatus: "true",
+            data: post,
+            message: "comment added "
+        })
+    } catch (e) {
+        res.send(500).send({
+            apiStatus: "false",
+            data: e.message,
+            message: "can not add comment,Error :("
+        })
+
+    }
+}
+const addlike = async(req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        post.likes.push(req.user._id)
+        await post.save()
+        res.status(200).send({
+            apiStatus: "true",
+            data: post,
+            message: "like added "
+        })
+    } catch (e) {
+        res.send(500).send({
+            apiStatus: "false",
+            data: e.message,
+            message: "can not add like ,Error :("
+        })
+
+    }
+}
+
+module.exports = { addPost, myPosts, singlePost, addComment, addlike }
