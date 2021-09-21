@@ -20,45 +20,65 @@ const register = async(req, res) => {
         })
     }
 }
-const addAddr = async(req, res) => {
-    try {
-        const user = await User.findById(req.params.id)
-        const addr = req.body
-        user.addresses.push(addr)
-        await user.save()
-        res.status(200).send({
-            apiStatus: true,
-            data: user,
-            message: "data added successfuly"
-        })
-    } catch (e) {
-        res.status(500).send({
-            apiStatus: false,
-            data: e.message,
-            message: "error in register"
-        })
+const addUser = async(req, res) => {
+        try {
+
+            const user = req.body
+
+            await user.save()
+            res.status(200).send({
+                apiStatus: true,
+                data: user,
+                message: "user added successfuly"
+            })
+        } catch (e) {
+            res.status(500).send({
+                apiStatus: false,
+                data: e.message,
+                message: "error in added user "
+            })
+        }
     }
-}
+    //PROFILE
+const me = async(req, res) => { res.send(req.user) }
+    //EDIT PROFILE
+const editProfile = async(req, res) => {
+
+        avalUpdatates = ["name", "age", "email", "password", "position"]
+        requested = Object.keys(req.body)
+        isValid = requested.every(r => avalUpdatates.includes(r))
+        if (!isValid) res.send('updates unavaliable')
+        try {
+            const updatedData = await User.findByIdAndUpdate(req.user._id, req.body, { runValidators: true })
+            if (!updatedData) res.send('User not found')
+            res.send('done,user updated')
+        } catch (e) {
+            res.send(e)
+        }
+    }
+    //login
 const login = async(req, res) => {
-    try {
-        let user = await User.loginUser(req.body.email, req.body.password)
-        const token = await user.generateToken()
-        res.status(200).send({ apiStatus: true, data: { user, token }, message: "logged in" })
-    } catch (e) {
-        res.status(500).send({ apiStatus: false, data: e.message, message: "cannot login" })
+        try {
+            let user = await User.loginUser(req.body.email, req.body.password)
+            const token = await user.generateToken()
+            res.status(200).send({ apiStatus: true, data: { user, token }, message: "logged in" })
+        } catch (e) {
+            res.status(500).send({ apiStatus: false, data: e.message, message: "cannot login" })
+        }
     }
-}
+    //logout from one device
 const logOut = async(req, res) => {
-    try {
-        req.user.tokens = req.user.tokens.filter(singleToken => {
-            return singleToken.token != req.token
-        })
-        req.user.save()
-        res.send({ apiStatus: true, data: "", message: "logged out from this device" })
-    } catch (e) {
-        res.status(500).send({ apiStatus: false, data: e.message, message: 'error' })
+        try {
+            req.user.tokens = req.user.tokens.filter(singleToken => {
+                return singleToken.token != req.token
+            })
+            req.user.save()
+            res.send({ apiStatus: true, data: "", message: "logged out from this device" })
+        } catch (e) {
+            res.status(500).send({ apiStatus: false, data: e.message, message: 'error' })
+        }
     }
-}
+    //logout from all devices 
 const logOutAll = async(req, res) => {
     try {
         req.user.tokens = []
@@ -68,9 +88,9 @@ const logOutAll = async(req, res) => {
         res.status(500).send({ apiStatus: false, data: e.message, message: 'error' })
     }
 }
-const me = async(req, res) => { res.send(req.user) }
 
-const addPImg = async(req, res) => {
-    res.status(200).send({ data: 'uploaded' })
-}
-module.exports = { register, addAddr, login, logOut, logOutAll, me, addPImg }
+
+// const addPImg = async(req, res) => {
+//     res.status(200).send({ data: 'uploaded' })
+// }
+module.exports = { register, addUser, login, logOut, logOutAll, me, editProfile }
