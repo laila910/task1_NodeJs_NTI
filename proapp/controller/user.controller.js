@@ -23,7 +23,7 @@ const register = async(req, res) => {
 const addUser = async(req, res) => {
         try {
 
-            const user = req.body
+            const user = new User(req.body)
 
             await user.save()
             res.status(200).send({
@@ -90,7 +90,5 @@ const logOutAll = async(req, res) => {
 }
 
 
-// const addPImg = async(req, res) => {
-//     res.status(200).send({ data: 'uploaded' })
-// }
+
 module.exports = { register, addUser, login, logOut, logOutAll, me, editProfile }

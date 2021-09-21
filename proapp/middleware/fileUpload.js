@@ -3,7 +3,7 @@ const path = require('path')
 fs = require('fs')
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        const location = path.join('images', req.user._id.toString())
+        const location = path.join('files', req.user._id.toString())
         fs.mkdir(location, (err) => {})
         cb(null, location)
 
@@ -15,6 +15,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({
     storage: storage,
-    limits: ({ fileSize: 200 })
+    limits: ({ fileSize: 200000000000 })
+
 })
 module.exports = upload

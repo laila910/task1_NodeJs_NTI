@@ -25,10 +25,10 @@ const taskSchema = mongoose.Schema({
 
         {
             file: {
-                type: Number,
+                type: String,
                 trim: true
             },
-            userId: {
+            responseId: {
                 type: Number,
                 trim: true
             }
