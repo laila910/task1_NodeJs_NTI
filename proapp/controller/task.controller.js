@@ -44,10 +44,10 @@ const assignTask = async(req, res) => {
 }
 const response = async(req, res) => {
         try {
-            if (req.user.position == "manager") {
+            if (req.user.position == "emp") {
                 const task = await Task.findById(req.params.id)
                 const response = {
-                    Id: req.body.id,
+                    userId: req.user._id,
                     file: req.file.path
                 }
                 task.response.push(response)

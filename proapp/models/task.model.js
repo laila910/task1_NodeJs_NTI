@@ -28,7 +28,7 @@ const taskSchema = mongoose.Schema({
                 type: String,
                 trim: true
             },
-            responseId: {
+            userId: {
                 type: Number,
                 trim: true
             }
