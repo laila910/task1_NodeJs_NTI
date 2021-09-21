@@ -1,16 +1,17 @@
 const mongoose = require('mongoose')
 const taskSchema = mongoose.Schema({
-    userAdded: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         // required: function() { return userType == "manager" }
         required: true
     },
     assigned: [{
-        type: String,
-        required: true,
-        enum: ['txt', 'img', 'vid'],
-        trim: true
+        userId: {
+            type: String,
+
+            trim: true
+        }
     }],
     taskTitle: {
         type: String,
@@ -23,7 +24,7 @@ const taskSchema = mongoose.Schema({
     response: [
 
         {
-            text: {
+            file: {
                 type: Number,
                 trim: true
             },

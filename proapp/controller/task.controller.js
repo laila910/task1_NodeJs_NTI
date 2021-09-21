@@ -1,82 +1,69 @@
-// const Post = require('../models/post.model')
+const Task = require('../models/task.model')
 
-// const addPost = async(req, res) => {
-//     try {
-//         const post = new Post({
-//             ...req.body,
-//             userId: req.user._id
-//         })
-//         await post.save()
-//         res.status(200).send({ apiStatus: true, data: post, message: "data added" })
-//     } catch (e) {
-//         res.status(500).send({ apiStatus: false, data: e.message, message: "error adding post data" })
-//     }
-// }
-// const myPosts = async(req, res) => {
-//     try {
-//         await req.user.populate({
-//             path: "myPosts"
-//         }).execPopulate()
-//         res.status(200).send({ apiStatus: true, data: req.user.myPosts, message: "data added" })
-//     } catch (e) {
-//         res.status(500).send({ apiStatus: false, data: e.message, message: "error adding post data" })
-//     }
-// }
+const addTask = async(req, res) => {
+    try {
+        if (req.user.position == "manager") {
+            task = new Task({
+                ...req.body,
 
-// const singlePost = async(req, res) => {
-//     try {
-//         const singlepost = await Post.findById(req.params.id)
-//         if (!singlepost) res.send('post not found')
-//         await req.user.populate(
-//             "myPosts"
-//         )
-//         res.status(200).send({ apiStatus: true, data: req.user.myPosts, message: "data added" })
-//     } catch (e) {
-//         res.status(500).send({ apiStatus: false, data: e.message, message: "error adding post data" })
-//     }
+                userId: req.user._id
 
-//     // const post = await req.user.populate("myPosts").findById(req.params.id)
-//     // await req.user.populate("myPosts")
+            })
+        }
+        await task.save()
+        res.status(200).send({ apiStatus: true, data: task, message: "data added" })
+    } catch (e) {
+        res.status(500).send({ apiStatus: false, data: e.message, message: "error adding post data" })
+    }
+}
+
+const assignTask = async(req, res) => {
+    try {
+        if (req.user.position == "manager") {
+            const task = await Task.findById(req.params.id)
+            const assigned = req.body
+            task.assigned.push(assigned)
+            await task.save()
 
 
-// }
-// const addComment = async(req, res) => {
-//     try {
-//         const post = await Post.findById(req.params.id)
-//         post.comments.push(req.user._id)
-//         await post.save()
-//         res.status(200).send({
-//             apiStatus: "true",
-//             data: post,
-//             message: "comment added "
-//         })
-//     } catch (e) {
-//         res.send(500).send({
-//             apiStatus: "false",
-//             data: e.message,
-//             message: "can not add comment,Error :("
-//         })
+            res.status(200).send({
+                apiStatus: "true",
+                data: task,
+                message: "comment added "
+            })
+        }
+    } catch (e) {
+        res.send(500).send({
+            apiStatus: "false",
+            data: e.message,
+            message: "can not assign Task ,Error :("
+        })
 
-//     }
-// }
-// const addlike = async(req, res) => {
-//     try {
-//         const post = await Post.findById(req.params.id)
-//         post.likes.push(req.user._id)
-//         await post.save()
-//         res.status(200).send({
-//             apiStatus: "true",
-//             data: post,
-//             message: "like added "
-//         })
-//     } catch (e) {
-//         res.send(500).send({
-//             apiStatus: "false",
-//             data: e.message,
-//             message: "can not add like ,Error :("
-//         })
+    }
+}
+const response = async(req, res) => {
+    try {
+        if (req.user.position == "manager") {
+            const task = await Task.findById(req.params.id)
+            const response = {...req.body }
+            task.response.push(response)
+            await task.save()
 
-//     }
-// }
 
-// module.exports = { addPost, myPosts, singlePost, addComment, addlike }
+            res.status(200).send({
+                apiStatus: "true",
+                data: task,
+                message: "response added :)"
+            })
+        }
+    } catch (e) {
+        res.send(500).send({
+            apiStatus: "false",
+            data: e.message,
+            message: "can not add response  ,Error :("
+        })
+
+    }
+}
+
+module.exports = { addTask, assignTask, response }
