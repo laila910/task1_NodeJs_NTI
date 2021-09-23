@@ -1,0 +1,18 @@
+<!-- <section class="row">
+    <div class="col_4" *ngFor="let image of images">
+        <h4>{{image.title}}</h4>
+        <img class="img-fluid" [src]='image.thumbnailUrl'>
+    </div>
+</section> -->
+<input class="form-control">
+<table class="table table-bordered table-stripped">
+    <thead>
+        <th>index</th>
+        <th>title</th>
+    </thead>
+    <tr *ngFor="let image of images ,
+    let index=index, let o=odd ,let e=even" [ngClass]="{'oddRow':o,'evenRow':e}">
+        <td>{{ index }}</td>
+        <td>{{ image.title }}</td>
+    </tr>
+</table>
