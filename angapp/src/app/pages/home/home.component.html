@@ -1,0 +1,30 @@
+<!-- <section>
+    <app-header></app-header>
+    <app-card></app-card>
+
+    <app-contact></app-contact>
+</section> -->
+<!-- <input class="form-control" [(ngModel)]="v">
+<section class="container">
+    <div [ngSwitch]="v">
+        <li *ngSwitchCase="1">jan</li>
+        <li *ngSwitchCase="2">feb</li>
+        <li *ngSwitchCase="3">mar</li>
+        <li *ngSwitchCase="4">apr</li>
+        <li *ngSwitchCase="5">may</li>
+        <li *ngSwitchDefault>not available</li>
+    </div>
+</section>
+<section class="container">
+    <button class="btn btn-success" (click)="changestatus()">click</button>
+    <li *ngIf="status; else elseBlock">hello </li>
+    <ng-template #elseBlock>
+        <li> false status</li>
+
+    </ng-template>
+</section> -->
+<section class="container">
+    <li *ngFor="let item of myData" [routerLink]="item.id">
+        {{ item.title }}
+        <img [src]="item.image"></li>
+</section>
