@@ -1,0 +1,6 @@
+<section class="container">
+    <li *ngFor="let role of myRoles" [routerLink]="role.id">
+        {{ role.title }}
+        <br>
+        <p [innerHTML]=" role.statement"></p>
+</section>

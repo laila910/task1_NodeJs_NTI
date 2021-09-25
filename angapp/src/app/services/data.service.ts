@@ -6,17 +6,18 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private _http: HttpClient) { }
+  constructor(
+    // private _http: HttpClient
+  ) { }
 
-  getAllPosts(): Observable<any> {
-    // return this._http.get('https://jsonplaceholder.typicode.com/posts')
-    return this._http.get(' http://medical.mind-techs.com/api/auth/loadRoles/1')
+  // getAllPosts(): Observable<any> {
+  //   return this._http.get('https://jsonplaceholder.typicode.com/posts')
 
-  }
 
-  getSinglePost(id: any): Observable<any> {
-    // return this._http.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
-    return this._http.get(`http://medical.mind-techs.com/api/auth/LoadProviders/${id}/0/2
-`)
-  }
+  // }
+
+  // getSinglePost(id: any): Observable<any> {
+  //   return this._http.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+
+  // }
 }

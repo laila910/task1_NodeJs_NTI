@@ -8,8 +8,11 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./singleservice.component.css']
 })
 export class SingleserviceComponent implements OnInit {
-  myData: any = {}
-  constructor(private _activatedRoute: ActivatedRoute, private _data: DataService) { }
+  // myData: any = {}
+  constructor(
+    // private _activatedRoute: ActivatedRoute, private _data: DataService
+    //
+  ) { }
 
   ngOnInit(): void {
 
@@ -21,12 +24,12 @@ export class SingleserviceComponent implements OnInit {
     //   })
     // let id = this._activatedRoute.snapshot.paramMap.get('id')
 
-    let id = this._activatedRoute.snapshot.params.id
-    console.log(id)
-    this._data.getSinglePost(id).subscribe((all: any) => {
-      console.log(all)
-      this.myData = all
-    })
+    // let id = this._activatedRoute.snapshot.params.id
+    // console.log(id)
+    // this._data.getSinglePost(id).subscribe((all: any) => {
+    //   console.log(all)
+    //   this.myData = all
+    // })
   }
 }
 

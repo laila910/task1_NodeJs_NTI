@@ -8,7 +8,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class HomeComponent implements OnInit {
   v: any = ""
-  myData: any[] = []
+  // myData: any[] = []
   // status: boolean = true
   constructor(private _data: DataService) { }
   // changestatus() {
@@ -16,10 +16,10 @@ export class HomeComponent implements OnInit {
   // }
 
   ngOnInit(): void {
-    this._data.getAllPosts().subscribe(data => {
-      // console.log(data)
-      this.myData = data
-    })
+    // this._data.getAllPosts().subscribe(data => {
+    //   // console.log(data)
+    //   this.myData = data
+    // })
   }
 }
 
