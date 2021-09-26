@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+// import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'
@@ -16,6 +18,9 @@ import { ContactComponent } from './shared/contact/contact.component';
 import { RolesComponent } from './task/roles/roles.component';
 import { ProvidersComponent } from './task/providers/providers.component';
 import { SingleproviderComponent } from './task/singleprovider/singleprovider.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { C1Component } from './components/c1/c1.component';
+import { C2Component } from './components/c2/c2.component';
 
 @NgModule({
   declarations: [
@@ -30,13 +35,17 @@ import { SingleproviderComponent } from './task/singleprovider/singleprovider.co
     ContactComponent,
     RolesComponent,
     ProvidersComponent,
-    SingleproviderComponent
+    SingleproviderComponent,
+    C1Component,
+    C2Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TooltipModule.forRoot(),
+    // CarouselModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
